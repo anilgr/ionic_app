@@ -15,12 +15,16 @@ import 'rxjs/add/operator/map';
   templateUrl: 'contacts.html',
 })
 export class ContactsPage {
+  contacts = [];
   baseUrl: string = "http://localhost:8081";
   constructor(public http:Http, public navCtrl: NavController, public navParams: NavParams) {
     this.http.get(this.baseUrl + "/contacts")
       .subscribe(res => {
-        for(var key in JSON.parse(res._body)){
-          console.log("uid:"+key+"\nusername:"+JSON.parse(res._body)[key].username+"\n\n");
+        let tempContacts = JSON.parse(res._body);
+        for(var key in tempContacts){
+          tempContacts[key].uid = key;
+          this.contacts.push(tempContacts[key]);
+          console.log("uid:"+key+"\nusername:"+tempContacts[key].username+"\n\n");
         }
       }, (err) => {
         console.log("could not fetch contact list");
