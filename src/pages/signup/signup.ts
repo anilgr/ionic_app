@@ -42,9 +42,12 @@ export class SignupPage {
     this.http.post(this.baseUrl+"/signup",JSON.stringify(data), options)
     .subscribe(res => {
       console.log("successfuly signed up:"+res);
-      this.navCtrl.push(ContactsPage);
+
     }, (err) => {
       console.log("could not signup");
     })
+  }
+  list(){
+    this.navCtrl.push(ContactsPage);
   }
 }
