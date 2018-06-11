@@ -8,6 +8,7 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
 import { SignupPage } from '../pages/signup/signup';
+import { ContactsPage } from '../pages/contacts/contacts'
 import { HttpModule } from '@angular/http';
 
 @NgModule({
@@ -16,6 +17,7 @@ import { HttpModule } from '@angular/http';
     HomePage,
     LoginPage,
     SignupPage,
+    ContactsPage,
   ],
   imports: [
     BrowserModule,
@@ -28,6 +30,7 @@ import { HttpModule } from '@angular/http';
     HomePage,
     LoginPage,
     SignupPage,
+    ContactsPage,
   ],
   providers: [
     StatusBar,

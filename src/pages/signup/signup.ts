@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
+import { ContactsPage } from "../contacts/contacts";
 /**
  * Generated class for the SignupPage page.
  *
@@ -41,6 +42,7 @@ export class SignupPage {
     this.http.post(this.baseUrl+"/signup",JSON.stringify(data), options)
     .subscribe(res => {
       console.log("successfuly signed up:"+res);
+      this.navCtrl.push(ContactsPage);
     }, (err) => {
       console.log("could not signup");
     })
