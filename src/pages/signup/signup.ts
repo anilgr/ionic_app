@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { ContactsPage } from "../contacts/contacts";
+import { AuthProvider } from "../../providers/auth/auth"
 /**
  * Generated class for the SignupPage page.
  *
@@ -21,31 +22,25 @@ export class SignupPage {
   email: string;
   confirmPassword: string;
   baseUrl: string = "http://localhost:8081";
-  constructor(public http: Http, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public authProvider:AuthProvider , public http: Http, public navCtrl: NavController, public navParams: NavParams) {
   }
-//
   ionViewDidLoad() {
     console.log('ionViewDidLoad SignupPage');
   }
   signUp() {
-    let headers = new Headers();
-    headers.append('Content-type', 'application/json');
-
+    console.log("called signuppp")
     let data ={
-      username: this.username,
-      password: this.password,
-      email: this.email,
-      confirmPassword: this.confirmPassword
+      // username: this.username,
+      // password: this.password,
+      // email: this.email,
+      // confirmPassword: this.confirmPassword
+      username:"raj",
+      password: "123456",
+      email: "raj@mahal.con",
+      confirmPassword: "123456"
     };
 
-  let options = new RequestOptions({ headers: headers });
-    this.http.post(this.baseUrl+"/signup",JSON.stringify(data), options)
-    .subscribe(res => {
-      console.log("successfuly signed up:"+res);
-
-    }, (err) => {
-      console.log("could not signup");
-    })
+    this.authProvider.signUp(data);
   }
   list(){
     this.navCtrl.push(ContactsPage);

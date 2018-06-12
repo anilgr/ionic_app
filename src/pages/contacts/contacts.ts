@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { User } from "../../app/model/user";
+import { AuthProvider } from "../../providers/auth/auth"
 /**
  * Generated class for the ContactsPage page.
  *
@@ -17,23 +18,9 @@ import { User } from "../../app/model/user";
 })
 export class ContactsPage {
   private contacts:User[] = [];
-  private baseUrl: string = "http://localhost:8081";
-  constructor(public http:Http, public navCtrl: NavController, public navParams: NavParams) {
-    this.list();
-  }
-  private list(){
-    this.http.get(this.baseUrl + "/contacts")
-      .subscribe(res => {
-        let parsedContactList = JSON.parse(res._body);
-        for(var key in parsedContactList){
-          parsedContactList[key].uid = key;
-          this.contacts.push(new User(key, parsedContactList[key].username, parsedContactList[key].email ));
-          console.log("uid:"+key+"\nusername:"+parsedContactList[key].username+"\n\n");
-
-        }
-      }, (err) => {
-        console.log("could not fetch contact list");
-      })
+  constructor(public authProvider:AuthProvider, public http:Http, public navCtrl:NavController, public navParams:NavParams) {
+    authProvider.getUsers();
+    this.contacts = authProvider.users;
   }
   ionViewDidLoad() {
     console.log('ionViewDidLoad ContactsPage');
