@@ -19,7 +19,6 @@ export class AuthProvider {
 
   }
   public  getUsers(){
-    return new Promise(function(resolve, reject){
       this.http.get(this.baseUrl + "/contacts")
       .subscribe(res => {
         let parsedContactList = JSON.parse(res._body);
@@ -27,14 +26,13 @@ export class AuthProvider {
           parsedContactList[key].uid = key;
           this.users.push(new User(key, parsedContactList[key].username, parsedContactList[key].email ));
           console.log("uid:"+key+"\nusername:"+parsedContactList[key].username+"\n\n");
-
+        
         }
-
 
       }, (err) => {
         console.log("could not fetch contact list");
       });
-    })
+
 
   }
   public signUp(data){
@@ -48,6 +46,20 @@ export class AuthProvider {
 
       }, (err) => {
         console.log("could not signup");
+      })
+  }
+
+  public login(data){
+
+    let headers = new Headers();
+    headers.append('Content-type', 'application/json');
+    let options = new RequestOptions({ headers: headers });
+      this.http.post(this.baseUrl+"/login",JSON.stringify(data), options)
+      .subscribe(res => {
+        console.log("successfuly logged in:"+res);
+
+      }, (err) => {
+        console.log("could not log in");
       })
   }
 }
