@@ -1,46 +1,24 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, RequestOptions } from '@angular/http';
+import { Http, Headers, RequestOptions,URLSearchParams } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { User } from "../../app/model/user";
 
-/*
-  Generated class for the AuthProvider provider.
-
-  See https://angular.io/guide/dependency-injection for more info on providers
-  and Angular DI.
-*/
 @Injectable()
 export class AuthProvider {
-  private isLoggedIn;
-  private currentUser;
-  users:User[] = [];
+  public bearerToken;
+  public isLoggingIn = false;
+  public loggedIn = false;
+  private currentUser = {};
   private baseUrl: string = "http://localhost:8081";
   constructor(public http: Http) {
 
   }
-  public  getUsers(){
-      this.http.get(this.baseUrl + "/contacts")
-      .subscribe(res => {
-        let parsedContactList = JSON.parse(res._body);
-        for(var key in parsedContactList){
-          parsedContactList[key].uid = key;
-          this.users.push(new User(key, parsedContactList[key].username, parsedContactList[key].email ));
-          console.log("uid:"+key+"\nusername:"+parsedContactList[key].username+"\n\n");
-        
-        }
 
-      }, (err) => {
-        console.log("could not fetch contact list");
-      });
-
-
-  }
   public signUp(data){
-      console.log("called s")
     let headers = new Headers();
     headers.append('Content-type', 'application/json');
-    let options = new RequestOptions({ headers: headers });
-      this.http.post(this.baseUrl+"/signup",JSON.stringify(data), options)
+    let options = new RequestOptions({ headers: headers});
+       this.http.post(this.baseUrl+"/auth/signup",JSON.stringify(data), options)
       .subscribe(res => {
         console.log("successfuly signed up:"+res);
 
@@ -49,14 +27,20 @@ export class AuthProvider {
       })
   }
 
-  public login(data){
+public login(data){
 
     let headers = new Headers();
     headers.append('Content-type', 'application/json');
-    let options = new RequestOptions({ headers: headers });
-      this.http.post(this.baseUrl+"/login",JSON.stringify(data), options)
+    let options = new RequestOptions({ headers: headers});
+     this.http.post(this.baseUrl+"/auth/login",JSON.stringify(data), options)
       .subscribe(res => {
-        console.log("successfuly logged in:"+res);
+        let data = JSON.parse(res._body);
+        console.log(data.access_token);
+        this.bearerToken = data.access_token;
+        console.log("successfuly logged in:"+res._body);
+        this.isLoggingIn = false;
+        this.loggedIn = true;
+        // this.currentUser.uid = res._body;
 
       }, (err) => {
         console.log("could not log in");

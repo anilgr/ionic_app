@@ -36,7 +36,7 @@ export class SignupPage {
       // confirmPassword: this.confirmPassword
       username:"raj",
       password: "123456",
-      email: "raj@mahal.con",
+      email: "anilgr.agr@gmail.com",
       confirmPassword: "123456"
     };
 

@@ -8,7 +8,7 @@ import { AuthProvider } from "../../providers/auth/auth"
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
  */
- 
+
 @IonicPage()
 @Component({
   selector: 'page-login',
@@ -20,13 +20,12 @@ export class LoginPage {
   constructor(public auth:AuthProvider, public navCtrl: NavController, public navParams: NavParams) {
 
   }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad LoginPage');
-  }
   login(){
-    this.auth.login({email:"anilgr.agr@gmail.com",
-  password:"anil5gr123"});
+    this.auth.isLoggingIn = true;
+    //this method has to be synchronized or return login status;
+    this.auth.login({username:"anilgr.agr@gmail.com",
+    password:"anil5gr123"});
+    console.log(this.auth.isLoggedIn);
   }
   openSignup(){
     this.navCtrl.push(SignupPage);

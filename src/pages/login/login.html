@@ -8,6 +8,9 @@
 
   <ion-navbar color="maroon">
     <ion-title>Login</ion-title>
+    <button ion-button icon-only >
+  <ion-icon name="more"></ion-icon>
+</button>
   </ion-navbar>
 
 </ion-header>
@@ -26,11 +29,15 @@
       <ion-input [(ngModel)]="password"type="password"></ion-input>
     </ion-item>
     <ion-item text-center no-lines>
-      <button class="match-parent" ion-button color="dark" (click)="login()">Login</button>
+      <button class="match-parent" ion-button color="dark" (click)="login()">
+        <ion-spinner *ngIf = "auth.isLoggingIn" name="ios-small"></ion-spinner>
+      <span *ngIf = "!auth.isLoggingIn">Login</span></button>
+
     </ion-item>
     <ion-item (click)="openSignup()" id="signup">
       signup?
     </ion-item>
+
   </ion-list>
 
 </ion-content>

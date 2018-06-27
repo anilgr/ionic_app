@@ -1,0 +1,22 @@
+page-chat {
+
+}
+.footer{
+  display: flex;
+  flex-flow: row;
+}
+.chat ion-item{
+  width: 50% !important;
+  border-radius: 0 10px 10px 10px;
+  background-color: #f4f4f4;
+ margin-top: 8px;
+}
+// .chat ion-list{
+//   height:50%;
+// }
+// .chat{
+//   display: flex !important;
+//   flex-flow: column!important;
+//   align-items:flex-end !important;
+//   height: 100% !important;
+// }

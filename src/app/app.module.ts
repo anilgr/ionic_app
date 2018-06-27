@@ -9,8 +9,10 @@ import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
 import { SignupPage } from '../pages/signup/signup';
 import { ContactsPage } from '../pages/contacts/contacts'
+import { ChatPage } from '../pages/chat/chat'
 import { HttpModule } from '@angular/http';
 import { AuthProvider } from '../providers/auth/auth';
+import { ChatServiceProvider } from '../providers/chat-service/chat-service';
 
 @NgModule({
   declarations: [
@@ -19,6 +21,7 @@ import { AuthProvider } from '../providers/auth/auth';
     LoginPage,
     SignupPage,
     ContactsPage,
+    ChatPage,
   ],
   imports: [
     BrowserModule,
@@ -32,12 +35,15 @@ import { AuthProvider } from '../providers/auth/auth';
     LoginPage,
     SignupPage,
     ContactsPage,
+    ChatPage,
+    
   ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    AuthProvider
+    AuthProvider,
+    ChatServiceProvider
   ]
 })
 export class AppModule {}

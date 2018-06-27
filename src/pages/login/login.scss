@@ -11,3 +11,14 @@ page-login {
 #signup:hover{
   color:black !important;
 }
+.toolbar-content{
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+}
+.toolbar-content *{
+  box-shadow:none;
+}
+.toolbar-content *:active{
+  box-shadow:none;
+}
