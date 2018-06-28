@@ -8,6 +8,8 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
 import { SignupPage } from '../pages/signup/signup';
+import { OverflowMenuPage } from '../pages/overflow-menu/overflow-menu';
+
 import { ContactsPage } from '../pages/contacts/contacts'
 import { ChatPage } from '../pages/chat/chat'
 import { HttpModule } from '@angular/http';
@@ -22,6 +24,7 @@ import { ChatServiceProvider } from '../providers/chat-service/chat-service';
     SignupPage,
     ContactsPage,
     ChatPage,
+    OverflowMenuPage,
   ],
   imports: [
     BrowserModule,
@@ -36,7 +39,8 @@ import { ChatServiceProvider } from '../providers/chat-service/chat-service';
     SignupPage,
     ContactsPage,
     ChatPage,
-    
+    OverflowMenuPage,
+
   ],
   providers: [
     StatusBar,
