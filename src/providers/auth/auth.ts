@@ -28,22 +28,25 @@ export class AuthProvider {
   }
 
 public login(data){
+    return new Promise((resolve, reject)=>{
+      let headers = new Headers();
+      headers.append('Content-type', 'application/json');
+      let options = new RequestOptions({ headers: headers});
+       this.http.post(this.baseUrl+"/auth/login",JSON.stringify(data), options)
+        .subscribe(res => {
+          let data = JSON.parse(res._body);
+          console.log(data.access_token);
+          this.bearerToken = data.access_token;
+          console.log("successfuly logged in:"+res._body);
+          this.isLoggingIn = false;
+          this.loggedIn = true;
+          resolve();
+          // this.currentUser.uid = res._body;
 
-    let headers = new Headers();
-    headers.append('Content-type', 'application/json');
-    let options = new RequestOptions({ headers: headers});
-     this.http.post(this.baseUrl+"/auth/login",JSON.stringify(data), options)
-      .subscribe(res => {
-        let data = JSON.parse(res._body);
-        console.log(data.access_token);
-        this.bearerToken = data.access_token;
-        console.log("successfuly logged in:"+res._body);
-        this.isLoggingIn = false;
-        this.loggedIn = true;
-        // this.currentUser.uid = res._body;
+        }, (err) => {
+          console.log("could not log in");
+        })
+    })
 
-      }, (err) => {
-        console.log("could not log in");
-      })
   }
 }

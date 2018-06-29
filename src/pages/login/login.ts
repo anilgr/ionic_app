@@ -4,6 +4,8 @@ import { SignupPage } from '../signup/signup';
 import { AuthProvider } from "../../providers/auth/auth";
 import { PopoverController } from 'ionic-angular';
 import { OverflowMenuPage } from '../overflow-menu/overflow-menu';
+import { ContactsPage } from "../contacts/contacts";
+
 /**
  * Generated class for the LoginPage page.
  *
@@ -22,17 +24,15 @@ export class LoginPage {
   constructor(public popoverCtrl: PopoverController, public auth:AuthProvider, public navCtrl: NavController, public navParams: NavParams) {
 
   }
-  presentPopover(myEvent) {
-   let popover = this.popoverCtrl.create(OverflowMenuPage);
-   popover.present({
-     ev: myEvent
-   });
- }
+
+
   login(){
     this.auth.isLoggingIn = true;
     //this method has to be synchronized or return login status;
     this.auth.login({username:"anilgr.agr@gmail.com",
-    password:"anil5gr123"});
+    password:"anil5gr123"}).then(()=>{
+      this.navCtrl.push(ContactsPage)
+    });
     console.log(this.auth.isLoggedIn);
   }
   openSignup(){
