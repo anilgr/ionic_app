@@ -5,7 +5,7 @@ import { AuthProvider } from "../../providers/auth/auth";
 import { PopoverController } from 'ionic-angular';
 import { OverflowMenuPage } from '../overflow-menu/overflow-menu';
 import { ContactsPage } from "../contacts/contacts";
-
+import { ToastController } from 'ionic-angular';
 /**
  * Generated class for the LoginPage page.
  *
@@ -21,7 +21,7 @@ import { ContactsPage } from "../contacts/contacts";
 export class LoginPage {
   username:string;
   password:string;
-  constructor(public popoverCtrl: PopoverController, public auth:AuthProvider, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private toastCtrl: ToastController, public popoverCtrl: PopoverController, public auth:AuthProvider, public navCtrl: NavController, public navParams: NavParams) {
 
   }
 
@@ -32,6 +32,14 @@ export class LoginPage {
     this.auth.login({username:"anilgr.agr@gmail.com",
     password:"anil5gr123"}).then(()=>{
       this.navCtrl.push(ContactsPage)
+    }).catch((err)=>{
+      this.toastCtrl.create({
+        message:err,
+        duration:3000,
+        position:'bottom'
+      }).present();
+      this.username = "";
+      this.password = "";
     });
     console.log(this.auth.isLoggedIn);
   }

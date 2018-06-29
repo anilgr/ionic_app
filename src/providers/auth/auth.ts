@@ -44,7 +44,9 @@ public login(data){
           // this.currentUser.uid = res._body;
 
         }, (err) => {
-          console.log("could not log in");
+          this.isLoggingIn = false;
+          reject("could not log in please try again...")
+          console.log("could not log in please try again");
         })
     })
 
