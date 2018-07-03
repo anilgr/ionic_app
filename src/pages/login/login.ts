@@ -29,8 +29,8 @@ export class LoginPage {
   login(){
     this.auth.isLoggingIn = true;
     //this method has to be synchronized or return login status;
-    this.auth.login({username:"anilgr.agr@gmail.com",
-    password:"anil5gr123"}).then(()=>{
+    this.auth.login({username:this.username,
+    password:this.password}).then(()=>{
       this.navCtrl.setRoot(ContactsPage)
     }).catch((err)=>{
       this.toastCtrl.create({

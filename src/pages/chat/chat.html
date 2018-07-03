@@ -16,14 +16,17 @@
 <ion-content class="chat" padding>
   <ion-list class="content">
 
-    <ion-item *ngFor = "let message of messages" no-lines>
+    <ion-item text-wrap *ngFor = "let message of messages" no-lines>
       {{message}}
     </ion-item>
 
 
   </ion-list>
+
+</ion-content>
+<ion-footer>
   <div class="footer">
     <ion-input [(ngModel)]="messageInput" placeholder="Text Input"></ion-input>
     <button ion-button round (click) = "sendMessage()">send</button>
   </div>
-</ion-content>
+</ion-footer>

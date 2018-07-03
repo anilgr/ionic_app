@@ -40,9 +40,10 @@ export class ChatServiceProvider {
   }
   public sendMessage(message){
     let headers = new Headers();
-
+    headers.append("Authorization", "Bearer "+this.storage.get('access_token'));
     headers.append('Content-type', 'application/json');
     let options = new RequestOptions({ headers: headers });
+    console.log(message)
     this.http.post(this.baseUrl + "/messages", JSON.stringify(message), options)
     .subscribe((res)=>{
       console.log(res);
