@@ -3,7 +3,7 @@ import 'rxjs/add/operator/map';
 import { User } from "../../app/model/user";
 import { Injectable } from '@angular/core';
 import { AuthProvider } from '../auth/auth';
-
+import { Storage } from '@ionic/storage';
 /*
   Generated class for the ChatServiceProvider provider.
 
@@ -14,13 +14,13 @@ import { AuthProvider } from '../auth/auth';
 export class ChatServiceProvider {
   users:User[] = [];
   private baseUrl: string = "http://localhost:8081";
-  constructor(public http: Http, public auth:AuthProvider) {
+  constructor(private storage:Storage,public http: Http, public auth:AuthProvider) {
 
   }
 
   public  getUsers(){
       let headers = new Headers();
-      headers.append("Authorization", "Bearer "+this.auth.bearerToken);
+      headers.append("Authorization", "Bearer "+this.storage.get('access_token'));
       let options = new RequestOptions({ headers: headers});
       return this.http.get(this.baseUrl + "/users", options)
       .map(res => {

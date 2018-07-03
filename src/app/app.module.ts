@@ -9,7 +9,7 @@ import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
 import { SignupPage } from '../pages/signup/signup';
 import { OverflowMenuPage } from '../pages/overflow-menu/overflow-menu';
-
+import { IonicStorageModule } from '@ionic/storage';
 import { ContactsPage } from '../pages/contacts/contacts'
 import { ChatPage } from '../pages/chat/chat'
 import { HttpModule } from '@angular/http';
@@ -29,7 +29,8 @@ import { ChatServiceProvider } from '../providers/chat-service/chat-service';
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
-    HttpModule
+    HttpModule,
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [

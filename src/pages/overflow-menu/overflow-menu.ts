@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
+import { App, IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
+import { LoginPage } from "../login/login";
+
 /**
  * Generated class for the OverflowMenuPage page.
  *
@@ -15,10 +17,16 @@ import { AuthProvider } from '../../providers/auth/auth';
 })
 export class OverflowMenuPage {
 
-  constructor(public auth:AuthProvider, public viewCtrl:ViewController, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public app:App,public auth:AuthProvider, public viewCtrl:ViewController, public navCtrl: NavController, public navParams: NavParams) {
 
   }
-  close(){
+  logout(){
+    this.auth.logout().then(()=>{
+    this.app.getRootNav().setRoot(LoginPage)
     this.viewCtrl.dismiss();
+    });
+  }
+  close(){
+
   }
 }
