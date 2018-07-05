@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, RequestOptions, URLSearchParams } from '@angular/http';
+import { HttpClient, HttpHeaders} from '@angular/common/http';
 import 'rxjs/add/operator/map';
 import { User } from "../../app/model/user";
 import { Storage } from '@ionic/storage';
@@ -11,15 +11,14 @@ export class AuthProvider {
   public loggedIn = false;
   public currentUser = {};
   private baseUrl: string = "http://localhost:8081";
-  constructor(public http: Http, private storage: Storage) {
-
+  constructor(public http: HttpClient, private storage: Storage) {
   }
 
   public signUp(data) {
     return new Promise((resolve, reject)=> {
-      let headers = new Headers();
+      let headers = new HttpHeaders();
       headers.append('Content-type', 'application/json');
-      let options = new RequestOptions({ headers: headers });
+      let options ={ headers: headers };
       this.isSigningUp = true;
       this.http.post(this.baseUrl + "/auth/signup", JSON.stringify(data), options)
         .subscribe(res => {
@@ -35,9 +34,9 @@ export class AuthProvider {
   public logout() {
     return new Promise((resolve, reject) => {
       console.log("logged out?");
-      let headers = new Headers();
+      let headers = new HttpHeaders();
       headers.append('Content-type', 'application/json');
-      let options = new RequestOptions({ headers: headers });
+      let options = { headers: headers };
       this.http.post(this.baseUrl + "/auth/logout", JSON.stringify(), options)
         .subscribe(res => {
           console.log(res._body);
@@ -51,16 +50,16 @@ export class AuthProvider {
   }
   public login(data) {
     return new Promise((resolve, reject) => {
-      let headers = new Headers();
+      let headers = new HttpHeaders();
       headers.append('Content-type', 'application/json');
-      let options = new RequestOptions({ headers: headers });
-      this.http.post(this.baseUrl + "/auth/login", JSON.stringify(data), options)
+      let options ={ headers: headers };
+      this.http.post(this.baseUrl + "/auth/login",data, options)
         .subscribe(res => {
-          let data = JSON.parse(res._body);
+          let data = res;
           console.log(data.access_token);
           this.bearerToken = data.access_token;
           this.storage.set('access_token', data.access_token);
-          console.log("successfuly logged in:" + res._body);
+          console.log("successfuly logged in:" + res);
           this.isLoggingIn = false;
           this.loggedIn = true;
           this.currentUser.uid = data.uid;
