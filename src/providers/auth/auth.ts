@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders} from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import 'rxjs/add/operator/map';
 import { User } from "../../app/model/user";
 import { Storage } from '@ionic/storage';
@@ -15,10 +15,10 @@ export class AuthProvider {
   }
 
   public signUp(data) {
-    return new Promise((resolve, reject)=> {
+    return new Promise((resolve, reject) => {
       let headers = new HttpHeaders();
       headers.append('Content-type', 'application/json');
-      let options ={ headers: headers };
+      let options = { headers: headers };
       this.isSigningUp = true;
       this.http.post(this.baseUrl + "/auth/signup", JSON.stringify(data), options)
         .subscribe(res => {
@@ -34,28 +34,30 @@ export class AuthProvider {
   public logout() {
     return new Promise((resolve, reject) => {
       console.log("logged out?");
-      let headers = new HttpHeaders();
-      headers.append('Content-type', 'application/json');
-      let options = { headers: headers };
-      this.http.post(this.baseUrl + "/auth/logout", JSON.stringify(), options)
+
+      let options = {
+        observe: 'response',
+        responseType: 'text',
+      };
+      this.http.post(this.baseUrl + "/auth/logout",{}, options)
         .subscribe(res => {
-          console.log(res._body);
+          console.log(res.body);
           this.storage.remove('access_token');
           resolve();
         }, err => {
-          console.log("could not logout: error occured");
+          console.log("could not logout: error occured:" + err.message);
           reject();
         })
     })
   }
   public login(data) {
     return new Promise((resolve, reject) => {
-      let headers = new HttpHeaders();
-      headers.append('Content-type', 'application/json');
-      let options ={ headers: headers };
-      this.http.post(this.baseUrl + "/auth/login",data, options)
+      let options = {
+        observe: 'response',
+      };
+      this.http.post(this.baseUrl + "/auth/login", data, options)
         .subscribe(res => {
-          let data = res;
+          let data = res.body;
           console.log(data.access_token);
           this.bearerToken = data.access_token;
           this.storage.set('access_token', data.access_token);

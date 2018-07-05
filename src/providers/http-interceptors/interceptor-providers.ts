@@ -2,11 +2,11 @@ import {
   HTTP_INTERCEPTORS
 } from '@angular/common/http';
 import {
-  DummyInterceptor
-} from './dummy-interceptor';
+  RequestInterceptor
+} from './request-interceptor';
 
 export const httpInterceptorProviders = [{
   provide: HTTP_INTERCEPTORS,
-  useClass: DummyInterceptor,
+  useClass: RequestInterceptor,
   multi: true
 }]

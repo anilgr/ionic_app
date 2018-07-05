@@ -19,10 +19,7 @@ export class ChatServiceProvider {
   }
 
   public getUsers() {
-    let headers = new HttpHeaders();
-    headers.append("Authorization", "Bearer " + this.storage.get('access_token'));
     let options = {
-      headers: headers,
       observe: 'response'
     };
     return this.http.get(this.baseUrl + "/users", options)
@@ -42,12 +39,9 @@ export class ChatServiceProvider {
 
   }
   public sendMessage(message) {
-    let headers = new HttpHeaders();
-    headers.append("Authorization", "Bearer " + this.storage.get('access_token'));
-    headers.append('Content-type', 'application/json');
     let options = {
-      headers: headers,
-      observe: 'response'
+      observe: 'response',
+      responseType:'text'
     };
     console.log(message)
     this.http.post(this.baseUrl + "/messages", JSON.stringify(message), options)

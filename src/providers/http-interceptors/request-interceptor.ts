@@ -1,18 +1,26 @@
 import { Injectable } from '@angular/core';
 import {
-  HttpEvent, HttpInterceptor, HttpHandler, HttpRequest
+  HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpHeaders
 } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
-
+import { Storage } from '@ionic/storage';
 /** Pass untouched request through to the next request handler. */
 @Injectable()
-export class DummyInterceptor implements HttpInterceptor {
+export class RequestInterceptor implements HttpInterceptor {
+  constructor(private storage: Storage){
 
+  }
   intercept(req: HttpRequest<any>, next: HttpHandler):
     Observable<HttpEvent<any>> {
     console.log("intercepted");
-    return next.handle(req);
+    const authReq = req.clone({
+    headers: new HttpHeaders({
+      'Content-Type':  'application/json',
+      'Authorization': "Bearer "+this.storage.get('access_token')
+    })
+  });
+  return next.handle(authReq);
   }
 }
 
