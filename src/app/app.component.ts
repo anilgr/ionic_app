@@ -4,18 +4,39 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { LoginPage } from '../pages/login/login';
 import { AuthProvider } from '../providers/auth/auth';
+import { Storage } from '@ionic/storage';
+import { ContactsPage } from '../pages/contacts/contacts';
+
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage:any = LoginPage;
+  rootPage: any;
 
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
+  constructor(public auth: AuthProvider, private storage: Storage, platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
     platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
+
       statusBar.styleDefault();
       splashScreen.hide();
     });
+    console.log(auth.loggedIn)
+    // if(auth.loggedIn == true){
+    //   this.rootPage = ContactsPage;
+    // }
+    storage.get('access_token').then((val) => {
+    console.log(val)
+      if(val == null)
+      {
+        this.rootPage = LoginPage
+      }
+      else{
+        this.auth.checkAccessToken().then(()=>{
+           this.rootPage = ContactsPage;  
+        });
+
+      }
+
+    })
+
   }
 }

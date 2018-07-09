@@ -13,6 +13,20 @@ export class AuthProvider {
   public currentUser = {};
   private baseUrl: string = "http://localhost:8081";
   constructor(public http: HttpClient, private storage: Storage) {
+   console.log("created auth");
+    storage.get('access_token').then((val)=>{
+     this.loggedIn = true;
+     this.bearerToken = val;
+
+    })
+    storage.get('refresh_token').then((val)=>{
+
+     this.refreshhToken = val;
+
+    })
+    storage.get('token_issue_time').then((val)=>{
+      this.tokenIssueTime = val;
+    })
   }
   public async refreshToken() {
     let headers = new HttpHeaders();
@@ -24,7 +38,10 @@ export class AuthProvider {
     try {
       let res = await this.http.get(this.baseUrl + "/refresh_token", options).toPromise();
 
-      this.storage.set("access_token", res.access_token);
+      this.storage.set('access_token', res.access_token);
+      this.storage.set('refresh_token', res.refresh_token);
+      this.storage.set('token_issue_time', res.tokenIssueTime);
+
       this.bearerToken = res.access_token;
       this.tokenIssueTime = new Date();
       console.log("token refreshed");
@@ -44,6 +61,7 @@ export class AuthProvider {
     return this.bearerToken;
   }
   async checkAccessToken() {
+    console.log("accesstoken__"+this.bearerToken)
     let diffMillis = (new Date()) - this.tokenIssueTime;
     console.log(diffMillis)
     let diffMin = Math.floor((diffMillis / 1000) / 60)
@@ -82,6 +100,9 @@ export class AuthProvider {
         .subscribe(res => {
           console.log(res.body);
           this.storage.remove('access_token');
+          this.storage.remove('refresh_token');
+          this.storage.remove('token_issue_time');
+
           resolve();
         }, err => {
           console.log("could not logout: error occured:" + err.message);
@@ -103,6 +124,7 @@ export class AuthProvider {
           this.tokenIssueTime = new Date();
           this.storage.set('access_token', data.access_token);
           this.storage.set('refresh_token', data.refresh_token);
+          this.storage.set('token_issue_time', this.tokenIssueTime);
           console.log("successfuly logged in:" + res);
           this.isLoggingIn = false;
           this.loggedIn = true;

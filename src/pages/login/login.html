@@ -15,27 +15,28 @@
 
 
 <ion-content padding>
-  <ion-list>
+  <form>
+    <ion-list>
 
-    <ion-item>
-      <ion-label floating>Username</ion-label>
-      <ion-input [(ngModel)]="username"type="text"></ion-input>
-    </ion-item>
+      <ion-item>
+        <ion-label floating>Username</ion-label>
+        <ion-input name="username" [(ngModel)]="username" type="text"></ion-input>
+      </ion-item>
 
-    <ion-item >
-      <ion-label floating>Password</ion-label>
-      <ion-input [(ngModel)]="password"type="password"></ion-input>
-    </ion-item>
-    <ion-item text-center no-lines>
-      <button class="match-parent" ion-button color="dark" (click)="login()">
+      <ion-item>
+        <ion-label floating>Password</ion-label>
+        <ion-input name="password" [(ngModel)]="password" type="password"></ion-input>
+      </ion-item>
+      <ion-item text-center no-lines>
+        <button class="match-parent" ion-button color="dark" (click)="login()">
         <ion-spinner *ngIf = "auth.isLoggingIn" name="ios-small"></ion-spinner>
       <span *ngIf = "!auth.isLoggingIn">Login</span></button>
 
-    </ion-item>
-    <ion-item (click)="openSignup()" id="signup">
-      signup?
-    </ion-item>
+      </ion-item>
+      <ion-item (click)="openSignup()" id="signup">
+        signup?
+      </ion-item>
 
-  </ion-list>
-
+    </ion-list>
+  </form>
 </ion-content>
