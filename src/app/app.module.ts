@@ -5,7 +5,6 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 
 import { MyApp } from './app.component';
-import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
 import { SignupPage } from '../pages/signup/signup';
 import { OverflowMenuPage } from '../pages/overflow-menu/overflow-menu';
@@ -21,7 +20,6 @@ import { httpInterceptorProviders } from '../providers/http-interceptors/interce
 @NgModule({
   declarations: [
     MyApp,
-    HomePage,
     LoginPage,
     SignupPage,
     ContactsPage,
@@ -38,7 +36,6 @@ import { httpInterceptorProviders } from '../providers/http-interceptors/interce
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage,
     LoginPage,
     SignupPage,
     ContactsPage,

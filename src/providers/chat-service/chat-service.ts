@@ -29,7 +29,7 @@ export class ChatServiceProvider {
         for (var key in parsedContactList) {
           parsedContactList[key].uid = key;
           this.users.push(new User(key, parsedContactList[key].username, parsedContactList[key].email));
-          console.log("uid:" + key + "\nusername:" + parsedContactList[key].username + "\n\n");
+
 
         }
         return this.users;
@@ -38,15 +38,14 @@ export class ChatServiceProvider {
 
 
   }
-  public sendMessage(message) {
+async sendMessage(message) {
+    await this.auth.checkAccessToken();
     let options = {
       observe: 'response',
       responseType:'text'
     };
-    console.log(message)
     this.http.post(this.baseUrl + "/messages", JSON.stringify(message), options)
       .subscribe((res) => {
-        console.log(res);
       })
   }
 

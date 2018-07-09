@@ -1,26 +1,32 @@
 import { Injectable } from '@angular/core';
 import {
-  HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpHeaders
+  HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpHeaders, HttpClient
 } from '@angular/common/http';
-
+import { AuthProvider } from '../auth/auth';
 import { Observable } from 'rxjs';
 import { Storage } from '@ionic/storage';
 /** Pass untouched request through to the next request handler. */
 @Injectable()
 export class RequestInterceptor implements HttpInterceptor {
-  constructor(private storage: Storage){
+  private baseUrl: string = "http://localhost:8081";
+  constructor(private auth: AuthProvider, private storage: Storage, private http: HttpClient) {
 
   }
   intercept(req: HttpRequest<any>, next: HttpHandler):
     Observable<HttpEvent<any>> {
     console.log("intercepted");
+    if (req.url == "http://localhost:8081/refresh_token") {
+      return next.handle(req);
+    }
     const authReq = req.clone({
-    headers: new HttpHeaders({
-      'Content-Type':  'application/json',
-      'Authorization': "Bearer "+this.storage.get('access_token')
-    })
-  });
-  return next.handle(authReq);
+      setHeaders: {
+        'Content-Type': 'application/json',
+        'Authorization': "Bearer " + this.auth.getAccessToken(),
+      }
+    });
+
+    return next.handle(authReq)
+
   }
 }
 

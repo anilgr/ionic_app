@@ -30,6 +30,7 @@ export class ChatPage {
       senderId: this.auth.currentUser.uid,
       timestamp: new Date().toString(),
     });
+    this.messageInput = "";
   }
   ionViewDidLoad() {
     console.log('ionViewDidLoad ChatPage');

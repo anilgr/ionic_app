@@ -41,7 +41,6 @@ export class LoginPage {
       this.username = "";
       this.password = "";
     });
-    console.log(this.auth.isLoggedIn);
   }
   openSignup(){
     this.navCtrl.push(SignupPage);

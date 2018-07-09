@@ -23,7 +23,8 @@ import { OverflowMenuPage } from '../overflow-menu/overflow-menu';
 })
 export class ContactsPage {
   private contacts:User[] = [];
-  constructor(public popoverCtrl: PopoverController, public chatService:ChatServiceProvider, public authProvider:AuthProvider, public http:Http, public navCtrl:NavController, public navParams:NavParams) {
+  constructor(public popoverCtrl: PopoverController, public chatService:ChatServiceProvider, public auth:AuthProvider, public http:Http, public navCtrl:NavController, public navParams:NavParams) {
+    
     chatService.getUsers().subscribe((users)=>{
       this.contacts = users;
     });
@@ -36,7 +37,6 @@ export class ContactsPage {
    });
  }
   openChat(contact){
-    console.log(contact);
     this.navCtrl.push(ChatPage,contact);
   }
 }

@@ -29,8 +29,8 @@ export class OverflowMenuPage {
   }
   logout() {
     this.auth.logout().then(() => {
-      this.app.getRootNav().setRoot(LoginPage)
-      this.viewCtrl.dismiss();
+    this.app.getRootNav().setRoot(LoginPage)
+    this.viewCtrl.dismiss();
     })
       .catch((err) => {
         this.toastCtrl.create({
