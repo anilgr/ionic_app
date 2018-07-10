@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders,HttpParams} from '@angular/common/http';
 import 'rxjs/add/operator/map';
 import { User } from "../../app/model/user";
 import { Injectable } from '@angular/core';
@@ -17,7 +17,21 @@ export class ChatServiceProvider {
   constructor(private storage: Storage, public http: HttpClient, public auth: AuthProvider) {
 
   }
+  public getConversation(friend){
 
+    let params = new HttpParams()
+    .set('person2', friend)
+    console.log(params)
+    let options = {
+      observe: 'response',
+      params:params
+    };
+    return this.http.get(this.baseUrl + "/messages/"+this.auth.currentUser.uid, options)
+    .map((res)=>{
+      return res.body;
+    })
+
+  }
   public getUsers() {
     let options = {
       observe: 'response'

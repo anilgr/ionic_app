@@ -20,9 +20,7 @@ export class MyApp {
       splashScreen.hide();
     });
     console.log(auth.loggedIn)
-    // if(auth.loggedIn == true){
-    //   this.rootPage = ContactsPage;
-    // }
+
     storage.get('access_token').then((val) => {
     console.log(val)
       if(val == null)
@@ -31,7 +29,7 @@ export class MyApp {
       }
       else{
         this.auth.checkAccessToken().then(()=>{
-           this.rootPage = ContactsPage;  
+           this.rootPage = ContactsPage;
         });
 
       }

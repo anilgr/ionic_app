@@ -27,6 +27,9 @@ export class AuthProvider {
     storage.get('token_issue_time').then((val)=>{
       this.tokenIssueTime = val;
     })
+    storage.get('user_id').then((val)=>{
+      this.currentUser.uid = val;
+    })
   }
   public async refreshToken() {
     let headers = new HttpHeaders();
@@ -102,6 +105,8 @@ export class AuthProvider {
           this.storage.remove('access_token');
           this.storage.remove('refresh_token');
           this.storage.remove('token_issue_time');
+          this.storage.remove('user_id');
+
 
           resolve();
         }, err => {
@@ -125,6 +130,7 @@ export class AuthProvider {
           this.storage.set('access_token', data.access_token);
           this.storage.set('refresh_token', data.refresh_token);
           this.storage.set('token_issue_time', this.tokenIssueTime);
+          this.storage.set('user_id', data.uid);
           console.log("successfuly logged in:" + res);
           this.isLoggingIn = false;
           this.loggedIn = true;

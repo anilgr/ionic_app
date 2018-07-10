@@ -29,7 +29,7 @@ export class LoginPage {
   login(){
     this.auth.isLoggingIn = true;
     //this method has to be synchronized or return login status;
-    this.auth.login({username:"arya@gmail.com",
+    this.auth.login({username:this.username,
     password:"123456"}).then(()=>{
       this.navCtrl.setRoot(ContactsPage)
     }).catch((err)=>{

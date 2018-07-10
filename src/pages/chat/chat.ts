@@ -18,11 +18,12 @@ export class ChatPage {
   messages: string[] = [];
   messageInput: string;
   constructor(public auth: AuthProvider, public chatService: ChatServiceProvider, public navCtrl: NavController, public navParams: NavParams) {
-
+   this.chatService.getConversation(this.navParams.get("uid")).subscribe((messages)=>{this.messages = messages})
 
   }
   sendMessage() {
-    this.messages.push(this.messageInput);
+    this.messages.push({message:this.messageInput,
+    isLeft:false});
 
     this.chatService.sendMessage({
       message: this.messageInput,
