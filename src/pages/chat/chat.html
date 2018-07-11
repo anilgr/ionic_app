@@ -6,7 +6,7 @@
 -->
 <ion-header>
 
-  <ion-navbar color="maroon">
+  <ion-navbar color="primary">
     <ion-title>{{navParams.get("username")}}</ion-title>
   </ion-navbar>
 
@@ -16,15 +16,16 @@
 <ion-content class="chat" padding>
   <ion-list class="content">
 
-    <ion-item text-wrap *ngFor = "let message of messages" [class.left]="message.isLeft" no-lines>
+    <ion-item text-wrap *ngFor="let message of messages" [class.left]="message.isLeft" no-lines>
       {{message.message}}
     </ion-item>
   </ion-list>
 
 </ion-content>
-<ion-footer>
+<ion-footer no-border>
   <div class="footer">
     <ion-input [(ngModel)]="messageInput" placeholder="Text Input"></ion-input>
-    <button ion-button round (click) = "sendMessage()">send</button>
   </div>
+  <button class="send"(click)="sendMessage()"></button>
+
 </ion-footer>

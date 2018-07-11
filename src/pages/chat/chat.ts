@@ -15,7 +15,7 @@ import { AuthProvider } from "../../providers/auth/auth"
   templateUrl: 'chat.html',
 })
 export class ChatPage {
-  messages: string[] = [];
+  messages: any[] = [];
   messageInput: string;
   constructor(public auth: AuthProvider, public chatService: ChatServiceProvider, public navCtrl: NavController, public navParams: NavParams) {
    this.chatService.getConversation(this.navParams.get("uid")).subscribe((messages)=>{this.messages = messages})
