@@ -17,14 +17,19 @@
   <ion-list class="content">
 
     <ion-item text-wrap *ngFor="let message of messages" [class.left]="message.isLeft" no-lines>
-      {{message.message}}
+      <div>
+        {{message.message}}
+      </div>
+      <div class="time">
+       {{message.time}}
+      </div>
     </ion-item>
   </ion-list>
 
 </ion-content>
 <ion-footer no-border>
   <div class="footer">
-    <ion-input [(ngModel)]="messageInput" placeholder="Text Input"></ion-input>
+    <ion-input [(ngModel)]="messageInput" placeholder="Type a message"></ion-input>
   </div>
   <button class="send"(click)="sendMessage()"></button>
 

@@ -43,7 +43,7 @@ export class AuthProvider {
 
       this.storage.set('access_token', res.access_token);
       this.storage.set('refresh_token', res.refresh_token);
-      this.storage.set('token_issue_time', res.tokenIssueTime);
+      this.storage.set('token_issue_time', res.issued_at);
 
       this.bearerToken = res.access_token;
       this.tokenIssueTime = new Date();

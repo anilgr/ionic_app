@@ -41,6 +41,7 @@ export class ChatServiceProvider {
         let parsedContactList = res.body;
         this.users = [];
         for (var key in parsedContactList) {
+          if(key == this.auth.currentUser.uid)continue;
           parsedContactList[key].uid = key;
           this.users.push(new User(key, parsedContactList[key].username, parsedContactList[key].email));
 

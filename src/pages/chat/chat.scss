@@ -48,9 +48,12 @@ ion-footer > .footer {
 
 ion-footer > .footer > ion-input {
   padding-left: 10px !important;
+    padding-right: 10px !important;
 }
 
 .chat ion-item {
+  color: #212121;
+  padding-bottom:0px !important;
   width: auto !important;
   max-width: 80%;
   border-radius: 15px 0 15px 15px;
@@ -65,19 +68,27 @@ ion-footer > .footer > ion-input {
   flex-flow: column;
   align-items: flex-end;
 }
-
+.time{
+  color:#616161;
+  font-size: .7em;
+  text-align: right;
+  
+}
+.chat ion-item .label{
+  margin-bottom: 4px;
+}
 .chat .left {
   background-color: #E1F5FE;
   // #B2EBF2
   align-self: flex-start;
   border-radius: 0 15px 15px 15px;
 }
+.chat .left .time{
+}
 // .chat ion-list{
 //   height:50%;
 // }
-// .chat{
-//   display: flex !important;
-//   flex-flow: column!important;
-//   align-items:flex-end !important;
-//   height: 100% !important;
-// }
+.chat{
+padding-bottom: -10px;
+background-color:#F8F8FF;
+}
