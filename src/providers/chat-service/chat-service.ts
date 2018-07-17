@@ -13,14 +13,17 @@ import { Storage } from '@ionic/storage';
 @Injectable()
 export class ChatServiceProvider {
   users: User[] = [];
+  endKey = {};
+  isNewConversation;
   private baseUrl: string = "http://localhost:8081";
   constructor(private storage: Storage, public http: HttpClient, public auth: AuthProvider) {
 
   }
   public getConversation(friend){
-
+    console.log("endKey:"+this.endKey[friend])
     let params = new HttpParams()
     .set('person2', friend)
+    .set('endKey', this.endKey[friend])
     console.log(params)
     let options = {
       observe: 'response',
@@ -28,6 +31,7 @@ export class ChatServiceProvider {
     };
     return this.http.get(this.baseUrl + "/messages/"+this.auth.currentUser.uid, options)
     .map((res)=>{
+      console.log(res.body)
       return res.body;
     })
 
@@ -54,13 +58,21 @@ export class ChatServiceProvider {
 
   }
 async sendMessage(message) {
+  console.log("isNew:"+this.isNewConversation)
     await this.auth.checkAccessToken();
     let options = {
       observe: 'response',
       responseType:'text'
-    };
-    this.http.post(this.baseUrl + "/messages", JSON.stringify(message), options)
+     };
+    let data = {
+      messageData:message,
+      isNewConversation:this.isNewConversation,
+    }
+    this.http.post(this.baseUrl + "/messages", JSON.stringify(data), options)
       .subscribe((res) => {
+        console.log(res);
+        if(this.isNewConversation = true)
+        this.isNewConversation = false;
       })
   }
 

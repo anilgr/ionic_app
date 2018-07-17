@@ -13,15 +13,46 @@ export class ChatPage {
   messages: any[] = [];
   messageInput: string;
   constructor(public auth: AuthProvider, public chatService: ChatServiceProvider, public navCtrl: NavController, public navParams: NavParams) {
-    this.chatService.getConversation(this.navParams.get("uid")).subscribe((messages) => {
-      this.messages = messages;
-      this.messages.forEach((msg)=>{
+  }
+  ionViewWillEnter() {
+      this.loadMessages();
+
+
+  }
+  ionViewDidLeave() {
+    this.chatService.endKey[this.navParams.get("uid")] = undefined;
+  }
+  loadMessages(infiniteScroll) {
+    this.chatService.getConversation(this.navParams.get("uid")).subscribe((list) => {
+      console.log(list.length);
+      if(infiniteScroll != undefined)
+      {
+        if(list.length == 1)
+        {
+          infiniteScroll.enable(false);
+        }
+        infiniteScroll.complete();
+      }
+      else{
+        if(this.messages.length == 0)
+        {
+          this.chatService.isNewConversation = true;
+        }
+        else{
+          this.chatService.isNewConversation = false;
+
+        }
+      }
+      if(list[0])
+      this.chatService.endKey[this.navParams.get("uid")] = list[0].id;
+      list.forEach((msg) => {
         msg.time = Utility.formatAMPM(new Date(msg.timestamp));
+
       })
-      this.content.scrollToBottom(0);
+      list.pop()
+      this.messages = list.concat(this.messages);
+
     })
-
-
   }
   scrollToDown(delay) {
     setTimeout(() => {
@@ -32,7 +63,9 @@ export class ChatPage {
   sendMessage() {
     this.messages.push({
       message: this.messageInput,
-      isLeft: false
+      isLeft: false,
+      time: Utility.formatAMPM(new Date())
+
     });
     this.scrollToDown(100);
     this.chatService.sendMessage({

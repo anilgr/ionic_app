@@ -24,7 +24,7 @@ import { OverflowMenuPage } from '../overflow-menu/overflow-menu';
 export class ContactsPage {
   private contacts:User[] = [];
   constructor(public popoverCtrl: PopoverController, public chatService:ChatServiceProvider, public auth:AuthProvider, public http:Http, public navCtrl:NavController, public navParams:NavParams) {
-    
+
     chatService.getUsers().subscribe((users)=>{
       this.contacts = users;
     });

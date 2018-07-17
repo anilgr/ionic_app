@@ -10,6 +10,14 @@ ion-footer>.footer {
   margin-bottom: 4px
 
 }
+.infinite-loading{
+  margin-bottom: 5px;
+}
+ion-infinite-scroll-content{
+  margin-bottom: 0px;
+  margin-top:0px;
+  min-height:50px !important;
+}
 ion-footer{
   box-sizing: border-box;
   display: flex !important;
@@ -72,7 +80,7 @@ ion-footer > .footer > ion-input {
   color:#616161;
   font-size: .7em;
   text-align: right;
-  
+
 }
 .chat ion-item .label{
   margin-bottom: 4px;

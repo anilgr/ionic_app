@@ -25,7 +25,8 @@ export class AuthProvider {
 
     })
     storage.get('token_issue_time').then((val)=>{
-      this.tokenIssueTime = val;
+      this.tokenIssueTime = new Date(val);
+
     })
     storage.get('user_id').then((val)=>{
       this.currentUser.uid = val;
