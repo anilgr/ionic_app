@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { App, IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { User } from "../../app/model/user";
@@ -22,21 +22,27 @@ import { OverflowMenuPage } from '../overflow-menu/overflow-menu';
   templateUrl: 'contacts.html',
 })
 export class ContactsPage {
-  private contacts:User[] = [];
-  constructor(public popoverCtrl: PopoverController, public chatService:ChatServiceProvider, public auth:AuthProvider, public http:Http, public navCtrl:NavController, public navParams:NavParams) {
+  private contacts: User[] = [];
+  constructor(public app: App, public popoverCtrl: PopoverController, public chatService: ChatServiceProvider, public auth: AuthProvider, public http: Http, public navCtrl: NavController, public navParams: NavParams) {
 
-    chatService.getUsers().subscribe((users)=>{
+    chatService.getUsers().then((users) => {
       this.contacts = users;
     });
 
   }
+
   presentPopover(myEvent) {
-   let popover = this.popoverCtrl.create(OverflowMenuPage);
-   popover.present({
-     ev: myEvent
-   });
- }
-  openChat(contact){
-    this.navCtrl.push(ChatPage,contact);
+    let popover = this.popoverCtrl.create(OverflowMenuPage);
+    popover.present({
+      ev: myEvent
+    });
+  }
+  openChat(contact) {
+
+    let currentIndex = this.navCtrl.getActive().index;
+    this.navCtrl.push(ChatPage, contact).then(() => {
+      this.navCtrl.remove(currentIndex);
+    });
+
   }
 }

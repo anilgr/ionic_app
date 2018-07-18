@@ -1,14 +1,17 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>
-      Ionic Blank
-    </ion-title>
-  </ion-navbar>
-</ion-header>
 
-<ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+  <ion-navbar color="primary">
+    <ion-title>IonChat</ion-title>
+    <button (click)="presentPopover($event)" ion-button icon-only >
+  <ion-icon name="more"></ion-icon>
+</button>
+  </ion-navbar>
+
+</ion-header>
+<ion-content>
+<ion-tabs tabsHighlight="true" tabsPlacement="top">
+  <ion-tab tabTitle = "contacts" [root]="tab1Root"></ion-tab>
+  <ion-tab tabTitle = "chats" [root]="tab2Root"></ion-tab>
+
+</ion-tabs>
 </ion-content>

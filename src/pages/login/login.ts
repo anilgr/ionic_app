@@ -5,6 +5,8 @@ import { AuthProvider } from "../../providers/auth/auth";
 import { PopoverController } from 'ionic-angular';
 import { OverflowMenuPage } from '../overflow-menu/overflow-menu';
 import { ContactsPage } from "../contacts/contacts";
+import { HomePage } from "../home/home";
+
 import { ToastController } from 'ionic-angular';
 /**
  * Generated class for the LoginPage page.
@@ -31,7 +33,7 @@ export class LoginPage {
     //this method has to be synchronized or return login status;
     this.auth.login({username:this.username,
     password:"123456"}).then(()=>{
-      this.navCtrl.setRoot(ContactsPage)
+      this.navCtrl.setRoot(HomePage)
     }).catch((err)=>{
       this.toastCtrl.create({
         message:err,

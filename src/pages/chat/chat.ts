@@ -25,9 +25,18 @@ export class ChatPage {
   loadMessages(infiniteScroll) {
     this.chatService.getConversation(this.navParams.get("uid")).subscribe((list) => {
       console.log(list.length);
+
+      if(list[0])
+      this.chatService.endKey[this.navParams.get("uid")] = list[0].id;
+      list.forEach((msg) => {
+        msg.time = Utility.formatAMPM(new Date(msg.timestamp));
+        msg.isLeft = msg.senderId == this.auth.currentUser.uid?false:true;
+      })
+      list.pop()
+      this.messages = list.concat(this.messages);
       if(infiniteScroll != undefined)
       {
-        if(list.length == 1)
+        if(list.length < 9)
         {
           infiniteScroll.enable(false);
         }
@@ -43,14 +52,6 @@ export class ChatPage {
 
         }
       }
-      if(list[0])
-      this.chatService.endKey[this.navParams.get("uid")] = list[0].id;
-      list.forEach((msg) => {
-        msg.time = Utility.formatAMPM(new Date(msg.timestamp));
-
-      })
-      list.pop()
-      this.messages = list.concat(this.messages);
 
     })
   }

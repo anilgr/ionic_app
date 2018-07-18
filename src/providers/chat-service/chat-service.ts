@@ -36,7 +36,8 @@ export class ChatServiceProvider {
     })
 
   }
-  public getUsers() {
+async getUsers() {
+    await this.auth.checkAccessToken();
     let options = {
       observe: 'response'
     };
@@ -53,7 +54,7 @@ export class ChatServiceProvider {
         }
         return this.users;
 
-      });
+      }).toPromise();
 
 
   }
