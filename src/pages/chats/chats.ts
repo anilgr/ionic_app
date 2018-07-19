@@ -3,6 +3,9 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { PopoverController } from 'ionic-angular';
 import { OverflowMenuPage } from '../overflow-menu/overflow-menu';
 import { ContactsPage } from '../contacts/contacts'
+import { ChatServiceProvider } from "../../providers/chat-service/chat-service"
+import { ChatPage } from "../chat/chat";
+
 /**
  * Generated class for the ChatsPage page.
  *
@@ -16,14 +19,18 @@ import { ContactsPage } from '../contacts/contacts'
   templateUrl: 'chats.html',
 })
 export class ChatsPage {
-  chats=[
-    {username:"dummychat"},
-    {username:"dummychat"},
-    {username:"dummychat"}
-  ]
-  constructor(public popoverCtrl: PopoverController,public navCtrl: NavController, public navParams: NavParams) {
-  }
+  chats=[]
+  constructor(public chatService: ChatServiceProvider,public popoverCtrl: PopoverController,public navCtrl: NavController, public navParams: NavParams) {
 
+  }
+  ionViewWillEnter(){
+    this.chatService.loadChatsList().then((chatz)=>{
+      this.chats = chatz;
+    });
+  }
+openChat(contact){
+  this.navCtrl.push(ChatPage,contact)
+}
   ionViewDidLoad() {
     console.log('ionViewDidLoad ChatsPage');
   }

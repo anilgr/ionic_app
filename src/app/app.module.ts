@@ -15,7 +15,7 @@ import { ContactsPage } from '../pages/contacts/contacts'
 import { ChatPage } from '../pages/chat/chat'
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
-import { ChatsPage } from '../pages/chats/chats'
+
 
 import { AuthProvider } from '../providers/auth/auth';
 import { ChatServiceProvider } from '../providers/chat-service/chat-service';

@@ -18,3 +18,10 @@ export class User{
   }
 
 }
+export class Chat{
+  username:string;
+  lastMessage:any;
+  recieverId:string;
+  reciever:any;
+
+}

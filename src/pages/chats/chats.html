@@ -18,11 +18,13 @@
 <ion-content padding >
   <ion-list class="contacts">
 
-      <ion-item *ngFor= "let chat of chats" (click)="openChat(contact)">
+      <ion-item *ngFor= "let chat of chats" (click)="openChat(chat.reciever)">
         <ion-avatar item-start>
           <img src="../../assets/imgs/thumbnail.png">
         </ion-avatar>
-        <h2>{{chat.username}}</h2>
+        <h2>{{chat.reciever.username}}</h2>
+        <h5>{{chat.lastMessage.message}}</h5>
+
       </ion-item>
 
   </ion-list>

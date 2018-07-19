@@ -1,6 +1,7 @@
-import { HttpClient, HttpHeaders,HttpParams} from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import 'rxjs/add/operator/map';
-import { User } from "../../app/model/user";
+import { User, Chat } from "../../app/model/model";
+
 import { Injectable } from '@angular/core';
 import { AuthProvider } from '../auth/auth';
 import { Storage } from '@ionic/storage';
@@ -14,29 +15,67 @@ import { Storage } from '@ionic/storage';
 export class ChatServiceProvider {
   users: User[] = [];
   endKey = {};
+  chats: Chat[] = [];
   isNewConversation;
   private baseUrl: string = "http://localhost:8081";
   constructor(private storage: Storage, public http: HttpClient, public auth: AuthProvider) {
 
   }
-  public getConversation(friend){
-    console.log("endKey:"+this.endKey[friend])
+  loadChatsList() {
+    this.chats = [];
+    let options = {
+      observe: 'response',
+    }
+    return this.http.get(this.baseUrl + "/conversations", options)
+      .map(async (res) => {
+        let data = res.body;
+        for (var i = 0; i < data.length; i++) {
+          let convtn = data[i];
+          let chat = new Chat();
+          chat.lastMessage = convtn.lastMessage;
+          let recieverId = (this.auth.currentUser.uid == convtn.member1) ? convtn.member2 : convtn.member1;
+          chat.reciever = await this.getUserById(recieverId)
+          this.chats.push(chat);
+        }
+        return this.chats;
+      }).toPromise();
+  }
+  async getUserById(userId) {
+    var usr;
+    if (this.users.length > 0) {
+
+      this.users.forEach((user) => {
+
+        if (user.uid == userId) {
+          usr = user;
+        }
+
+      })
+    } else {
+      await this.getUsers()
+      usr = await this.getUserById(userId);
+
+    }
+    return usr;
+  }
+  public getConversation(reciverId) {
+    console.log("endKey:" + this.endKey[reciverId])
     let params = new HttpParams()
-    .set('person2', friend)
-    .set('endKey', this.endKey[friend])
+      .set('person2', reciverId)
+      .set('endKey', this.endKey[reciverId])
     console.log(params)
     let options = {
       observe: 'response',
-      params:params
+      params: params
     };
-    return this.http.get(this.baseUrl + "/messages/"+this.auth.currentUser.uid, options)
-    .map((res)=>{
-      console.log(res.body)
-      return res.body;
-    })
+    return this.http.get(this.baseUrl + "/messages/" + this.auth.currentUser.uid, options)
+      .map((res) => {
+        console.log(res.body)
+        return res.body;
+      })
 
   }
-async getUsers() {
+  async getUsers() {
     await this.auth.checkAccessToken();
     let options = {
       observe: 'response'
@@ -46,7 +85,7 @@ async getUsers() {
         let parsedContactList = res.body;
         this.users = [];
         for (var key in parsedContactList) {
-          if(key == this.auth.currentUser.uid)continue;
+          if (key == this.auth.currentUser.uid) continue;
           parsedContactList[key].uid = key;
           this.users.push(new User(key, parsedContactList[key].username, parsedContactList[key].email));
 
@@ -58,22 +97,22 @@ async getUsers() {
 
 
   }
-async sendMessage(message) {
-  console.log("isNew:"+this.isNewConversation)
+  async sendMessage(message) {
+    console.log("isNew:" + this.isNewConversation)
     await this.auth.checkAccessToken();
     let options = {
       observe: 'response',
-      responseType:'text'
-     };
+      responseType: 'text'
+    };
     let data = {
-      messageData:message,
-      isNewConversation:this.isNewConversation,
+      messageData: message,
+      isNewConversation: this.isNewConversation,
     }
     this.http.post(this.baseUrl + "/messages", JSON.stringify(data), options)
       .subscribe((res) => {
         console.log(res);
-        if(this.isNewConversation = true)
-        this.isNewConversation = false;
+        if (this.isNewConversation = true)
+          this.isNewConversation = false;
       })
   }
 

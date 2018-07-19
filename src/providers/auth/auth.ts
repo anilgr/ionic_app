@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import 'rxjs/add/operator/map';
-import { User } from "../../app/model/user";
+import { User } from "../../app/model/model";
 import { Storage } from '@ionic/storage';
 @Injectable()
 export class AuthProvider {

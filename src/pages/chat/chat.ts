@@ -24,7 +24,6 @@ export class ChatPage {
   }
   loadMessages(infiniteScroll) {
     this.chatService.getConversation(this.navParams.get("uid")).subscribe((list) => {
-      console.log(list.length);
 
       if(list[0])
       this.chatService.endKey[this.navParams.get("uid")] = list[0].id;
@@ -32,7 +31,7 @@ export class ChatPage {
         msg.time = Utility.formatAMPM(new Date(msg.timestamp));
         msg.isLeft = msg.senderId == this.auth.currentUser.uid?false:true;
       })
-      list.pop()
+      let firstmsg = list.pop()
       this.messages = list.concat(this.messages);
       if(infiniteScroll != undefined)
       {
@@ -43,6 +42,8 @@ export class ChatPage {
         infiniteScroll.complete();
       }
       else{
+        if(firstmsg)
+        this.messages.push(firstmsg)
         if(this.messages.length == 0)
         {
           this.chatService.isNewConversation = true;

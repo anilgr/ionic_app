@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { App, IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
-import { User } from "../../app/model/user";
+import { User } from "../../app/model/model";
 import { AuthProvider } from "../../providers/auth/auth"
 import { ChatServiceProvider } from "../../providers/chat-service/chat-service"
 import { ChatPage } from "../chat/chat";
