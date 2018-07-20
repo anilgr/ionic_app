@@ -26,8 +26,10 @@ export class ChatServiceProvider {
     let options = {
       observe: 'response',
     }
-    return this.http.get(this.baseUrl + "/conversations", options)
+    return this.http.get(this.baseUrl + "/conversations/"+this.auth.currentUser.uid, options)
       .map(async (res) => {
+        console.log("entered to list")
+
         let data = res.body;
         for (var i = 0; i < data.length; i++) {
           let convtn = data[i];
@@ -35,6 +37,9 @@ export class ChatServiceProvider {
           chat.lastMessage = convtn.lastMessage;
           let recieverId = (this.auth.currentUser.uid == convtn.member1) ? convtn.member2 : convtn.member1;
           chat.reciever = await this.getUserById(recieverId)
+          // chat.reciever = convtn.reciever;
+
+          console.log(chat)
           this.chats.push(chat);
         }
         return this.chats;

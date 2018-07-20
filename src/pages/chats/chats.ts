@@ -25,6 +25,7 @@ export class ChatsPage {
   }
   ionViewWillEnter(){
     this.chatService.loadChatsList().then((chatz)=>{
+      console.log("loaded")
       this.chats = chatz;
     });
   }
