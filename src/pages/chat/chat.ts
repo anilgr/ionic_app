@@ -15,7 +15,7 @@ export class ChatPage {
   constructor(public auth: AuthProvider, public chatService: ChatServiceProvider, public navCtrl: NavController, public navParams: NavParams) {
   }
   ionViewWillEnter() {
-      this.loadMessages();
+      this.loadMessages(undefined);
 
 
   }

@@ -19,29 +19,27 @@ import { ChatPage } from "../chat/chat";
   templateUrl: 'chats.html',
 })
 export class ChatsPage {
-  chats=[]
-  constructor(public chatService: ChatServiceProvider,public popoverCtrl: PopoverController,public navCtrl: NavController, public navParams: NavParams) {
+  chats = []
+  constructor(public chatService: ChatServiceProvider, public popoverCtrl: PopoverController, public navCtrl: NavController, public navParams: NavParams) {
 
   }
-  ionViewWillEnter(){
-    this.chatService.loadChatsList().then((chatz)=>{
-      console.log("loaded")
+  ionViewWillEnter() {
+    this.chatService.loadChatsList().then((chatz) => {
       this.chats = chatz;
     });
   }
-openChat(contact){
-  this.navCtrl.push(ChatPage,contact)
-}
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad ChatsPage');
+
+  openChat(contact) {
+    this.navCtrl.push(ChatPage, contact)
   }
+
   presentPopover(myEvent) {
-   let popover = this.popoverCtrl.create(OverflowMenuPage);
-   popover.present({
-     ev: myEvent
-   });
+    let popover = this.popoverCtrl.create(OverflowMenuPage);
+    popover.present({
+      ev: myEvent
+    });
   }
-  openContacts(){
+  openContacts() {
     this.navCtrl.push(ContactsPage);
   }
 }

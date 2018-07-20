@@ -1,7 +1,7 @@
 export class User{
-  private uid:string;
-  private username:string;
-  private email:string;
+  public uid:string;
+  public username:string;
+  public email:string;
   constructor(uid:string, name:string, email:string){
     this.uid = uid;
     this.username = name;

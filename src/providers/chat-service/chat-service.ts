@@ -21,25 +21,19 @@ export class ChatServiceProvider {
   constructor(private storage: Storage, public http: HttpClient, public auth: AuthProvider) {
 
   }
-  loadChatsList() {
+  public loadChatsList() {
     this.chats = [];
     let options = {
       observe: 'response',
     }
     return this.http.get(this.baseUrl + "/conversations/"+this.auth.currentUser.uid, options)
       .map(async (res) => {
-        console.log("entered to list")
-
         let data = res.body;
         for (var i = 0; i < data.length; i++) {
           let convtn = data[i];
           let chat = new Chat();
           chat.lastMessage = convtn.lastMessage;
-          let recieverId = (this.auth.currentUser.uid == convtn.member1) ? convtn.member2 : convtn.member1;
-          chat.reciever = await this.getUserById(recieverId)
-          // chat.reciever = convtn.reciever;
-
-          console.log(chat)
+          chat.reciever = convtn.reciever;
           this.chats.push(chat);
         }
         return this.chats;
@@ -64,18 +58,15 @@ export class ChatServiceProvider {
     return usr;
   }
   public getConversation(reciverId) {
-    console.log("endKey:" + this.endKey[reciverId])
     let params = new HttpParams()
       .set('person2', reciverId)
       .set('endKey', this.endKey[reciverId])
-    console.log(params)
     let options = {
       observe: 'response',
       params: params
     };
     return this.http.get(this.baseUrl + "/messages/" + this.auth.currentUser.uid, options)
       .map((res) => {
-        console.log(res.body)
         return res.body;
       })
 
@@ -103,7 +94,6 @@ export class ChatServiceProvider {
 
   }
   async sendMessage(message) {
-    console.log("isNew:" + this.isNewConversation)
     await this.auth.checkAccessToken();
     let options = {
       observe: 'response',
@@ -115,7 +105,6 @@ export class ChatServiceProvider {
     }
     this.http.post(this.baseUrl + "/messages", JSON.stringify(data), options)
       .subscribe((res) => {
-        console.log(res);
         if (this.isNewConversation = true)
           this.isNewConversation = false;
       })
