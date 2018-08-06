@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "143374214715",
+    "firebase_url": "https://ionic-messenger-20fe9.firebaseio.com",
+    "project_id": "ionic-messenger-20fe9",
+    "storage_bucket": "ionic-messenger-20fe9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:143374214715:android:6d7eb35bd35342e9",
+        "android_client_info": {
+          "package_name": "com.ionicmessenger.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "143374214715-m4erh8d9pto42ijhi9f15drc66qd4rti.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqW3REEV9qyEaDEL7KeeLnvjJVyc76nOU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

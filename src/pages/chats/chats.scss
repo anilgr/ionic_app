@@ -8,3 +8,23 @@ ion-item:active{
 ion-item h5{
   color:grey;
 }
+.chat-details{
+  align-items: center;
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+
+}
+.chat-details :last-child{
+  font-size: .8em !important;
+}
+.chat-details :first-child{
+  width: 70%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+}
+h5:first-child {
+    margin-top: 0 !important;
+}

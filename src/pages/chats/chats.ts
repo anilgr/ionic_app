@@ -5,7 +5,7 @@ import { OverflowMenuPage } from '../overflow-menu/overflow-menu';
 import { ContactsPage } from '../contacts/contacts'
 import { ChatServiceProvider } from "../../providers/chat-service/chat-service"
 import { ChatPage } from "../chat/chat";
-
+import { Utility } from "../../app/utility/utility"
 /**
  * Generated class for the ChatsPage page.
  *

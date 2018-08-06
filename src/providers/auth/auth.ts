@@ -10,8 +10,9 @@ export class AuthProvider {
   public isLoggingIn = false;
   public isSigningUp = false;
   public loggedIn = false;
-  public currentUser: User = {};
-  private baseUrl: string = "http://localhost:8081";
+  public tokenIssueTime;
+  public currentUser: User;
+  private baseUrl: string = "http://10.0.2.2:8081";
   constructor(public http: HttpClient, private storage: Storage) {
     storage.get('access_token').then((val) => {
       this.loggedIn = true;
@@ -20,9 +21,8 @@ export class AuthProvider {
     })
     storage.get('refresh_token').then((val) => { this.refreshhToken = val; })
     storage.get('token_issue_time').then((val) => { this.tokenIssueTime = new Date(val); })
-    storage.get('user_id').then((val) => { this.currentUser.uid = val; })
+    storage.get('user_id').then((val) => { this.currentUser = new User(val, "", ""); })
   }
-
   public async refreshToken() {
     let headers = new HttpHeaders();
     var token = this.getRefreshToken()
@@ -32,11 +32,11 @@ export class AuthProvider {
     try {
       let res = await this.http.get(this.baseUrl + "/refresh_token", options).toPromise();
 
-      this.storage.set('access_token', res.access_token);
-      this.storage.set('refresh_token', res.refresh_token);
-      this.storage.set('token_issue_time', res.issued_at);
+      this.storage.set('access_token', res["access_token"]);
+      this.storage.set('refresh_token', res["refresh_token"]);
+      this.storage.set('token_issue_time', res["issued_at"]);
 
-      this.bearerToken = res.access_token;
+      this.bearerToken = res["access_token"];
       this.tokenIssueTime = new Date();
       console.log("token refreshed");
     }
@@ -45,15 +45,15 @@ export class AuthProvider {
     }
 
   }
-  getRefreshToken() {
+  public getRefreshToken() {
     return this.refreshhToken;
   }
-  getAccessToken() {
+  public getAccessToken() {
     return this.bearerToken;
   }
   async checkAccessToken() {
-    let diffMillis = (new Date()) - this.tokenIssueTime;
-    let diffMin = Math.floor((diffMillis / 1000) / 60)
+    var diffMillis = ((new Date()).getTime() - this.tokenIssueTime.getTime());
+    var diffMin = Math.floor((diffMillis / 1000) / 60)
     if (diffMin > 1) {
       await this.refreshToken();
     }
@@ -76,10 +76,9 @@ export class AuthProvider {
   }
   public logout() {
     return new Promise((resolve, reject) => {
-      let options = {
-        observe: 'response',
-        responseType: 'text',
-      };
+      let options:any = {
+        responseType:'text'
+      }
       this.http.post(this.baseUrl + "/auth/logout", {}, options)
         .subscribe(res => {
           this.storage.remove('access_token');
@@ -95,22 +94,21 @@ export class AuthProvider {
   }
   public login(data) {
     return new Promise((resolve, reject) => {
-      let options = {
-        observe: 'response',
-      };
-      this.http.post(this.baseUrl + "/auth/login", data, options)
+
+      this.http.post(this.baseUrl + "/auth/login", data)
         .subscribe(res => {
-          let data = res.body;
-          this.bearerToken = data.access_token;
-          this.refreshhToken = data.refresh_token;
+          let data = res;
+          this.bearerToken = data["access_token"];
+          this.refreshhToken = data["refresh_token"];
           this.tokenIssueTime = new Date();
           this.isLoggingIn = false;
           this.loggedIn = true;
-          this.currentUser.uid = data.uid;
-          this.storage.set('access_token', data.access_token);
-          this.storage.set('refresh_token', data.refresh_token);
-          this.storage.set('token_issue_time', this.tokenIssueTime);
-          this.storage.set('user_id', data.uid);
+          this.currentUser = new User(data["uid"],"","")
+
+          this.storage.set('access_token', data["access_token"]);
+          this.storage.set('refresh_token', data["refresh_token"]);
+          this.storage.set('token_issue_time', this["tokenIssueTime"]);
+          this.storage.set('user_id', data["uid"]);
           resolve();
         }, (err) => {
           this.isLoggingIn = false;
